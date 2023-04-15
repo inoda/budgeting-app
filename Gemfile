@@ -11,7 +11,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "react-rails", "= 2.6"
 gem "shakapacker", "= 6.6"
-
+gem 'bcrypt', '~> 3.1.7'
 # gem "sassc-rails"
 
 group :development, :test do

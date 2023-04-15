@@ -1,1 +1,9 @@
-<%= react_component("HelloWorld", { greeting: "Hello from react-rails." }) %>
+<%= form_tag sessions_path do %>
+  <label>Username</label>
+  <%= text_field_tag :username, nil, autocomplete: "off" %>
+
+  <label>Password</label>
+  <%= password_field_tag :password, nil, autocomplete: "off" %>
+
+  <%= submit_tag "Submit" %>
+<% end %>
