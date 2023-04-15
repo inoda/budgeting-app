@@ -9,10 +9,9 @@ const List = () => {
   const [paginationData, setPaginationData] = useState(STARTING_STATE);
   const [sortData, setSortData] = useState({ sort: 'transaction_date', sortDesc: true });
   const [search, setSearch] = useState('');
-  const [expenseCategoryId, setExpenseCategoryId] = useState('');
 
   useEffect(() => {
-    LineItems.paginatedList({ ...sortData, search }, paginationData).then(
+    LineItems.paginatedList({ ...sortData, search, includeCategory: true }, paginationData).then(
       (resp) => {
         setItems(resp.items);
         setPaginationData(resp.pagination_data);
@@ -29,8 +28,8 @@ const List = () => {
       sortable: true,
     },
     {
-      key: 'expense_category_id',
-      render: (item) => { return item.expense_category_id },
+      key: 'expense_category',
+      render: (item) => { return item.expense_category?.name },
       header: 'Category',
     },
     {
@@ -49,7 +48,7 @@ const List = () => {
   return (
     <>
       <div>
-        <input placeholder="Search memo" onChange={e => setSearch(e.target.value)} />
+        <input placeholder="Search memo or category" onChange={e => setSearch(e.target.value)} />
       </div>
 
       <Table
