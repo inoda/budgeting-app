@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_170938) do
 
   create_table "line_items", force: :cascade do |t|
     t.integer "amount", null: false
-    t.string "type", null: false
+    t.string "item_type", null: false
     t.datetime "transaction_date", precision: nil, null: false
     t.text "memo"
     t.integer "expense_category_id"
@@ -40,8 +40,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_15_170938) do
     t.datetime "updated_at", null: false
     t.index ["amount"], name: "index_line_items_on_amount"
     t.index ["expense_category_id"], name: "index_line_items_on_expense_category_id"
+    t.index ["item_type"], name: "index_line_items_on_item_type"
     t.index ["transaction_date"], name: "index_line_items_on_transaction_date"
-    t.index ["type"], name: "index_line_items_on_type"
   end
 
   create_table "users", force: :cascade do |t|

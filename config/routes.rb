@@ -7,4 +7,8 @@ Rails.application.routes.draw do
 
   resources :line_items, only: [:index]
   resources :reports, only: [:index]
+
+  namespace :api do
+    resources :line_items, only: [:index, :create, :destroy, :update]
+  end
 end
