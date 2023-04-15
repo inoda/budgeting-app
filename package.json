@@ -1,6 +1,6 @@
 {
   "name": "budgeting-app",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@babel/core": "7",
