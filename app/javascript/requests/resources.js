@@ -1,5 +1,9 @@
-import LineItems from './modules/line_items';
+import RestResource from './utilities/rest_resource';
+
+const LineItems = new RestResource('/line_items');
+const ExpenseCategories = new RestResource('/expense_categories');
 
 export {
   LineItems,
+  ExpenseCategories,
 };

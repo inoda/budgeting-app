@@ -2,7 +2,6 @@ module Api
   class LineItemsController < BaseController
     def index
       items = ::LineItem.all
-      json_opts = {}
 
       if params[:transaction_date_min].present?
         items = items.where('transaction_date >= ?', Time.at(params[:transaction_date_min].to_i).to_datetime)
@@ -21,13 +20,8 @@ module Api
         items = items.order(normalized_sort(params[:sort], params[:sort_desc])).order(id: :desc) if params[:sort]
       end
 
-      if params[:include_category] == true.to_s
-        items = items.includes(:expense_category)
-        json_opts = { include: :expense_category }
-      end
-
       resp = items.paginate(page, per_page)
-      paginated_response(resp, json_opts)
+      paginated_response(resp)
     end
 
     def destroy

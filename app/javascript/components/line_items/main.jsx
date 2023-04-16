@@ -1,7 +1,7 @@
 import React from 'react';
 import List from './list';
 
-const Main = ({ greeting }) => {
+const Main = () => {
   return (
     <>
       <h1>Line Items</h1>

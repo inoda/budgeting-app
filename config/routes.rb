@@ -10,5 +10,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :line_items, only: [:index, :create, :destroy, :update]
+    resources :expense_categories, only: [:index, :create, :destroy, :update]
   end
 end

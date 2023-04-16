@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { LineItems } from 'requests/resources';
+import React, { useState, useEffect } from 'react';
+import { LineItems, ExpenseCategories } from 'requests/resources';
 import Paginator, { STARTING_STATE } from 'components/shared/paginator';
 import Table from 'components/shared/table';
 import CreateModal from './create_modal';
 import DatePicker from 'react-datepicker';
-import { Alerts, Debounce } from 'utilities/main';
+import { Alerts, Debounce, ArrayHelper } from 'utilities/main';
 import moment from 'moment';
 
 const getTimeframeBounds = (t) => {
@@ -18,32 +18,38 @@ const getTimeframeBounds = (t) => {
 
 const List = () => {
   const [items, setItems] = useState([]);
+  const [expenseCategories, setExpenseCategories] = useState([]);
+  const expenseCategoriesById = ArrayHelper.indexBy(expenseCategories, c => c.id);
   const [paginationData, setPaginationData] = useState(STARTING_STATE);
   const [sortData, setSortData] = useState({ sort: 'transaction_date', sortDesc: true });
   const [search, setSearch] = useState('');
+  const changeSearch = Debounce.call(setSearch, 500);
   const [timeframe, setTimeframe] = useState('last_90_days');
   const [transactionDateMin, setTransactionDateMin] = useState(getTimeframeBounds(timeframe).min);
   const [transactionDateMax, setTransactionDateMax] = useState(getTimeframeBounds(timeframe).max);
   const [addItemOpen, setAddItemOpen] = useState(false);
   const [refreshPageTrigger, setRefreshPageTrigger] = useState(0);
 
-  const params = {
+  const lineItemParams = {
     search,
-    includeCategory: true,
     transactionDateMin: transactionDateMin ? moment(transactionDateMin).unix() : null,
     transactionDateMax: transactionDateMax ? moment(transactionDateMax).unix() : null,
     ...sortData,
   };
 
   useEffect(() => {
-    LineItems.paginatedList(params, paginationData).then(
+    ExpenseCategories.list().then(setExpenseCategories, Alerts.genericError);
+  }, [])
+
+  useEffect(() => {
+    LineItems.paginatedList(lineItemParams, paginationData).then(
       (resp) => {
         setItems(resp.items);
         setPaginationData(resp.pagination_data);
       },
-      () => { console.error('TODO') },
+      Alerts.genericError,
     );
-  }, [JSON.stringify(params), refreshPageTrigger])
+  }, [JSON.stringify(lineItemParams), refreshPageTrigger])
 
   const deleteItem = (itemId) => {
     Alerts.genericDelete('item').then((result) => {
@@ -54,7 +60,7 @@ const List = () => {
           setRefreshPageTrigger(refreshPageTrigger + 1);
           Alerts.success('The item was deleted');
         },
-        () => { Alerts.genericError() },
+        Alerts.genericError,
       );
     });
   }
@@ -67,10 +73,6 @@ const List = () => {
     setPaginationData({ ...paginationData, page: 1 });
   }
 
-  const changeSearch = Debounce.call((val) => {
-    setSearch(val);
-  }, 500);
-
   const tableColumns = [
     {
       key: 'transaction_date',
@@ -80,7 +82,7 @@ const List = () => {
     },
     {
       key: 'expense_category',
-      render: (item) => { return item.expense_category?.name },
+      render: (item) => { return expenseCategoriesById[item.expense_category_id]?.name },
       header: 'Category',
     },
     {
@@ -121,8 +123,8 @@ const List = () => {
 
           {timeframe === 'custom' && (
             <>
-              <DatePicker selected={transactionDateMin} onChange={d => setTransactionDateMin(d)} />
-              <DatePicker selected={transactionDateMax} onChange={d => setTransactionDateMax(d)} />
+              <DatePicker selected={transactionDateMin} onChange={setTransactionDateMin} />
+              <DatePicker selected={transactionDateMax} onChange={setTransactionDateMax} />
             </>
           )}
         </div>
@@ -131,9 +133,10 @@ const List = () => {
       <Table
         columnConfig={tableColumns}
         items={items}
-        onSortChange={sortData => setSortData(sortData)}
+        onSortChange={setSortData}
         sortData={sortData}
       />
+
       <Paginator
         paginationData={paginationData}
         onChange={page => setPaginationData({ ...paginationData, page })}

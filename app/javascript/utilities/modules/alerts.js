@@ -7,6 +7,7 @@ const Alerts = {
       text: 'Something went wrong. Refreshing the page and trying again might help.',
       icon: 'error',
       confirmButtonText: 'Refresh',
+      showCancelButton: true,
     }).then((result) => {
       if (!result.value) { return; }
       window.location.reload();
