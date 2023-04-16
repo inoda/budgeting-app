@@ -1,7 +1,7 @@
 module Api
   class LineItemsController < BaseController
     def index
-      items = ::LineItem.all
+      items = LineItem.all
 
       if params[:transaction_date_min].present?
         items = items.where('transaction_date >= ?', Time.at(params[:transaction_date_min].to_i).to_datetime)
@@ -25,9 +25,22 @@ module Api
     end
 
     def destroy
-      item = ::LineItem.find_by(id: params[:id])
+      item = LineItem.find_by(id: params[:id])
       successful = item&.destroy || item.nil?
       render json: nil, status: successful ? 200 : 500
+    end
+
+    def update
+      item = LineItem.find(params[:id])
+
+      successful = item.update(
+        expense_category_id: params.fetch(:expense_category_id, item.expense_category_id),
+        memo: params.fetch(:memo, item.memo),
+        transaction_date: params.fetch(:transaction_date, item.transaction_date),
+        amount: params.fetch(:amount, item.amount),
+      )
+
+      render json: item, status: successful ? 200 : 500
     end
 
     private

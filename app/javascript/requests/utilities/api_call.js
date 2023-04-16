@@ -46,10 +46,10 @@ const ApiCall = {
     return this.makeRequest({ url: path, method: 'DELETE', params: _camelToSnake(params) }, opts);
   },
   post(path, data, opts) {
-    return this.makeRequest({ url: path, data, method: 'POST' }, opts);
+    return this.makeRequest({ url: path, data: _camelToSnake(data), method: 'POST' }, opts);
   },
   put(path, data, opts) {
-    return this.makeRequest({ url: path, data, method: 'PUT' }, opts);
+    return this.makeRequest({ url: path, data: _camelToSnake(data), method: 'PUT' }, opts);
   },
 };
 

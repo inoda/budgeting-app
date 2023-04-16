@@ -29,7 +29,7 @@ const Alerts = {
     Swal.fire({
       toast: true,
       position: 'bottom-end',
-      timer: 3000,
+      timer: 2000,
       timerProgressBar: true,
       title: successText,
       showConfirmButton: false,
