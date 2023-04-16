@@ -30,9 +30,8 @@ const Alerts = {
       position: 'bottom-end',
       timer: 3000,
       timerProgressBar: true,
-      title: 'Woohoo!',
-      text: successText,
-      confirmButtonText: 'Ok',
+      title: successText,
+      showConfirmButton: false,
       icon: 'success',
     }).then(() => {
       if (onClose) { onClose(); }
