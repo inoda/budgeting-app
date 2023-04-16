@@ -26,11 +26,16 @@ const Table = ({ columnConfig, items, sortData, onSortChange }) => {
           {columnConfig.map(c => <th key={c.key}>{maybeSortableHeader(c)}</th>)}
         </tr>
       </thead>
+
       <tbody>
         {items.map((i => {
           return (
             <tr key={i.id}>
-              {columnConfig.map(c => <td key={c.key}>{c.render(i)}</td>)}
+              {columnConfig.map(c =>
+                <td key={c.key}>
+                  {c.render ? c.render(i) : i[c.key]}
+                </td>
+              )}
             </tr>
           )
         }))}
