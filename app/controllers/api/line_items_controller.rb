@@ -33,6 +33,12 @@ module Api
       paginated_response(resp, opts)
     end
 
+    def destroy
+      item = ::LineItem.find_by(id: params[:id])
+      successful = item&.destroy || item.nil?
+      render json: nil, status: successful ? 200 : 500
+    end
+
     private
 
     def normalized_sort(key, sort_desc)

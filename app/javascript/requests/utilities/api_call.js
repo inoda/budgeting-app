@@ -15,6 +15,8 @@ const _snakelize = (key) => {
 };
 
 const _camelToSnake = (obj) => {
+  if (!obj) return obj;
+
   let result = {};
   let keys = Object.keys(obj);
 

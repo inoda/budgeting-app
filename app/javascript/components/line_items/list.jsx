@@ -3,6 +3,7 @@ import { LineItems } from 'requests/resources';
 import Paginator, { STARTING_STATE } from 'components/shared/paginator';
 import Table from 'components/shared/table';
 import CreateModal from './create_modal';
+import { Alerts } from 'utilities/main';
 import moment from 'moment';
 
 const List = () => {
@@ -11,6 +12,7 @@ const List = () => {
   const [sortData, setSortData] = useState({ sort: 'transaction_date', sortDesc: true });
   const [search, setSearch] = useState('');
   const [addItemOpen, setAddItemOpen] = useState(false);
+  const [refreshPageTrigger, setRefreshPageTrigger] = useState(0);
 
   useEffect(() => {
     LineItems.paginatedList({ ...sortData, search, includeCategory: true }, paginationData).then(
@@ -20,7 +22,26 @@ const List = () => {
       },
       () => { console.error('TODO') },
     );
-  }, [paginationData.page, JSON.stringify(sortData), search])
+  }, [
+    paginationData.page,
+    JSON.stringify(sortData),
+    search,
+    refreshPageTrigger,
+  ])
+
+  const deleteItem = (itemId) => {
+    Alerts.genericDelete('item').then((result) => {
+      if (!result.value) { return; }
+
+      LineItems.delete(itemId).then(
+        () => {
+          setRefreshPageTrigger(refreshPageTrigger + 1);
+          Alerts.success();
+        },
+        () => { Alerts.genericError() },
+      );
+    });
+  }
 
   const tableColumns = [
     {
@@ -47,7 +68,7 @@ const List = () => {
     },
     {
       key: 'actions',
-      render: (item) => { return <button>x</button> },
+      render: (item) => { return <button onClick={() => deleteItem(item.id)}>x</button> },
       header: '',
     },
   ]
