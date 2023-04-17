@@ -12,7 +12,7 @@ gem "bootsnap", require: false
 gem "react-rails", "= 2.6"
 gem "shakapacker", "= 6.6"
 gem 'bcrypt', '~> 3.1.7'
-# gem "sassc-rails"
+gem "chronic", "~> 0.10.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

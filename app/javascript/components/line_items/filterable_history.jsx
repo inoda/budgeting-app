@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LineItems, ExpenseCategories } from 'requests/resources';
 import Paginator, { STARTING_STATE } from 'components/shared/paginator';
-import Table from 'components/shared/table';
-import CurrencyField from 'components/shared/currency_field';
+import LineItemsTable from './table';
 import ImportModal from './import_modal';
 import DatePicker from 'react-datepicker';
 import { Alerts, Debounce } from 'utilities/main';
@@ -17,9 +16,9 @@ const getTimeframeBounds = (t) => {
   }[t];
 }
 
-const List = () => {
+const FilterableHistory = () => {
   const [items, setItems] = useState([]);
-  const [expenseCategories, setExpenseCategories] = useState([]);
+  const [expenseCategories, setExpenseCategories] = useState(undefined);
   const [paginationData, setPaginationData] = useState(STARTING_STATE);
   const [sortData, setSortData] = useState({ sort: 'transaction_date', sortDesc: true });
   const [search, setSearch] = useState('');
@@ -30,6 +29,7 @@ const List = () => {
   const [importOpen, setImportOpen] = useState(false);
   const [refreshPageTrigger, setRefreshPageTrigger] = useState(0);
   const refreshCurrentPage = () => setRefreshPageTrigger(refreshPageTrigger + 1);
+  const bumpToFirstPage = () => { if (paginationData.page != 1) setPaginationData({ ...paginationData, page: 1 }) };
 
   const lineItemParams = {
     search,
@@ -50,7 +50,7 @@ const List = () => {
       },
       Alerts.genericError,
     );
-  }, [JSON.stringify(lineItemParams), refreshPageTrigger]);
+  }, [JSON.stringify(lineItemParams), paginationData.page, refreshPageTrigger]);
 
   const deleteItem = (itemId) => {
     Alerts.genericDelete('item').then((result) => {
@@ -81,71 +81,24 @@ const List = () => {
     setTimeframe(val);
     setTransactionDateMin(bounds.min);
     setTransactionDateMax(bounds.max);
-    setPaginationData({ ...paginationData, page: 1 });
+    bumpToFirstPage();
   };
 
-  const tableColumns = [
-    {
-      key: 'transaction_date',
-      header: 'Date',
-      sortable: true,
-      render: (item) =>
-        <DatePicker
-          onChange={val => updateItem(item.id, { transaction_date: val })}
-          selected={new Date(item.transaction_date)}
-        />
-    },
-    {
-      key: 'expense_category',
-      header: 'Category',
-      render: (item) => {
-        if (item.item_type === 'savings') return 'Savings';
+  const handleImport = () => {
+    setImportOpen(false);
+    bumpToFirstPage();
+    refreshCurrentPage();
+    Alerts.success('Import complete');
+  };
 
-        return (
-          <select
-            defaultValue={item.expense_category_id}
-            onChange={e => updateItem(item.id, { expense_category_id: e.target.value })}
-          >
-            {expenseCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-          </select>
-        );
-      },
-    },
-    {
-      key: 'amount',
-      header: 'Amount',
-      sortable: true,
-      render: (item) =>
-        <CurrencyField
-          initialValue={item.amount}
-          onBlur={val => updateItem(item.id, { amount: val })}
-        />
-    },
-    {
-      key: 'memo',
-      header: 'Memo',
-      render: (item) =>
-        <input
-          defaultValue={item.memo}
-          onBlur={e => {
-            if (e.target.value.trim() === item.memo) return;
-            updateItem(item.id, { memo: e.target.value.trim() });
-          }}
-        />
-    },
-    {
-      key: 'actions',
-      header: '',
-      render: (item) => <button onClick={() => deleteItem(item.id)}>x</button>,
-    },
-  ];
+  if (expenseCategories === undefined) return;
 
   return (
     <>
       <div>
         <div>
           <button onClick={setImportOpen}>+ Add items</button>
-          {importOpen && <ImportModal />}
+          {importOpen && <ImportModal onClose={() => setImportOpen(false)} onCompleteImport={handleImport} />}
         </div>
 
         <div>
@@ -167,11 +120,13 @@ const List = () => {
         </div>
       </div>
 
-      <Table
-        columnConfig={tableColumns}
+      <LineItemsTable
         items={items}
-        onSortChange={setSortData}
+        expenseCategories={expenseCategories}
+        onItemUpdate={updateItem}
+        onItemRemove={deleteItem}
         sortData={sortData}
+        setSortData={setSortData}
       />
 
       <Paginator
@@ -182,4 +137,4 @@ const List = () => {
   );
 }
 
-export default List;
+export default FilterableHistory;

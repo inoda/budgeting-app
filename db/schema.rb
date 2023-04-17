@@ -10,15 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_15_170938) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_17_195639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "csv_configs", force: :cascade do |t|
     t.text "name", null: false
-    t.text "config_json", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "item_type", null: false
+    t.boolean "has_header", null: false
+    t.boolean "spend_is_negative", default: true, null: false
+    t.boolean "skip_non_spend", default: false, null: false
+    t.integer "memo_column_index", default: 9999999, null: false
+    t.integer "category_column_index", default: 9999999, null: false
+    t.integer "amount_column_index", null: false
+    t.integer "transaction_date_column_index", null: false
+    t.string "filename_match_substring", null: false
+    t.string "memo_substrings_to_skip", array: true
+    t.text "category_mappings_json"
   end
 
   create_table "expense_categories", force: :cascade do |t|

@@ -15,7 +15,7 @@ module Api
 
       if params[:search]&.strip.present?
         items = items.left_outer_joins(:expense_category)
-        items = items.where("lower(memo) ILIKE ? OR lower(expense_categories.name) ILIKE ?", "%#{params[:search].strip}%", "%#{params[:search].strip}%")
+        items = items.where("lower(memo) ILIKE ? OR lower(expense_categories.name) ILIKE ? OR lower(item_type) ILIKE ?", "%#{params[:search].strip}%", "%#{params[:search].strip}%", "%#{params[:search].strip}%")
       end
 
       if params[:sort]
@@ -46,39 +46,48 @@ module Api
     end
 
     def upload
-      csv_configs = CsvConfig.all.
-        map { |c| JSON.parse(c.config_json) }.
-        index_by { |s| s['auto_detect']['filename_substrings'] }
-
+      csv_configs = CsvConfig.all.index_by(&:filename_match_substring)
       rows = []
 
       params[:files].each do |f|
         file_contents = File.read(f.tempfile)
         csv = CSV.parse(file_contents)
-
-        csv_config = csv_configs.find do |filename_substrings, _|
-          filename_substrings.find { |substring| f.original_filename.include?(substring) }
-        end
+        csv_config = csv_configs.find { |filename_match_substring, _| f.original_filename.include?(filename_match_substring) }[1]
 
         unless csv_config
           raise "'#{f.original_filename}' does not match any csv_config records. Set one up following the example in csv_config.rb."
         end
 
-        # processed_csv = CsvProcessor.new(csv, csv_config).process!
-        # processed_csv.each do |item|
-        #   amount = item[:amount]
-        #   transaction_date = item[:transaction_date]
-        #   memo = item[:memo]
-        #   expense_category_id = item[:expense_category_id]
-        #   item_type = item[:item_type]
+        processed_csv = CsvProcessor.new(csv, csv_config).process!
 
-        #   next if skip_existing && LineItem.exists?(amount: amount, paid_at: transaction_date, memo: memo)
+        processed_csv.each do |item|
+          amount = item[:amount]
+          transaction_date = item[:transaction_date]
+          memo = item[:memo]
+          expense_category_id = item[:expense_category_id]
+          item_type = item[:item_type]
 
-        #   rows << item
-        # end
+          next if LineItem.exists?(amount: amount, transaction_date: transaction_date, memo: memo)
+
+          rows << item
+        end
       end
 
-      render json: rows
+      render json: rows.sort_by { |i| i[:transaction_date] }.reverse
+    end
+
+    def bulk_create
+      LineItem.transaction do
+        params[:line_items].each do |item|
+          LineItem.create!(
+            amount: item['amount'],
+            expense_category_id: item['expense_category_id'],
+            memo: item['memo'],
+            transaction_date: item['transaction_date'],
+            item_type: item['item_type']
+          )
+        end
+      end
     end
 
     private

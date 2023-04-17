@@ -2,7 +2,6 @@ class CsvProcessor
   def initialize(csv_rows, csv_config)
     @csv_rows = csv_rows
     @config = csv_config
-    @categories_ids_by_lower_name = Category.all.index_by { |c| c.name.downcase }.transform_values { |c| c.id }
   end
 
   def process!
@@ -16,56 +15,28 @@ class CsvProcessor
 
   private
 
-  def description_index
-    @config.dig('descriptions', 'index') || raise('Missing description index')
-  end
-
-  def category_index
-    @config.dig('categories', 'index') || raise('Missing category index')
-  end
-
-  def amount_index
-    @config.dig('amounts', 'index') || raise('Missing amount index')
-  end
-
-  def date_index
-    @config.dig('timestamps', 'index') || raise('Missing date index')
-  end
-
-  def description_substrings_to_ignore
-    @config.dig('descriptions', 'ignore_substrings') || []
+  def categories_ids_by_lower_name
+    @categories_ids_by_lower_name ||= ExpenseCategory.all.index_by { |c| c.name.downcase }.transform_values { |c| c.id }
   end
 
   def category_mappings
-    @config.dig('categories', 'mappings') || {}
-  end
-
-  def amount_skip_non_spend
-    @config.dig('amounts', 'skip_non_spend') || false
-  end
-
-  def amount_is_negative
-    @config.dig('amounts', 'spend_is_negative') || false
-  end
-
-  def has_header
-    @config['has_header'] || false
+    @category_mappings ||= @config.category_mappings_json ? JSON.parse(@config.category_mappings_json) : {}
   end
 
   def spend_multiplier
-    amount_is_negative ? -1 : 1
+    @config.spend_is_negative ? -1 : 1
   end
 
   def skip_row?(row, index)
-    if index == 0 && has_header
+    if index == 0 && @config.has_header
       return true
     end
 
-    if description_substrings_to_ignore.any? { |str| row[description_index].include? str }
+    if @config.memo_substrings_to_skip&.any? { |str| row[@config.memo_column_index]&.downcase&.include? str }
       return true
     end
 
-    if amount_skip_non_spend && row[amount_index].to_f > 0
+    if @config.skip_non_spend && row[@config.amount_column_index].to_f > 0
       return true
     end
 
@@ -73,26 +44,32 @@ class CsvProcessor
   end
 
   def process_row(row)
-    category_id = get_category_id(row)
-    date = row[date_index]
-    description = row[description_index]
-    amount = row[amount_index]
+    expense_category_id = get_category_id(row)
+    transaction_date = Chronic.parse(row[@config.transaction_date_column_index])
+    memo = format(row[@config.memo_column_index])
+    amount = row[@config.amount_column_index].to_f * 100 * spend_multiplier
 
     {
-      paid_at: Chronic.parse(date),
-      description: format_description(description),
-      category_id: category_id,
-      amount: amount.to_f * 100 * spend_multiplier,
+      id: "#{transaction_date}-#{amount}-#{memo}",
+      transaction_date: transaction_date,
+      memo: memo,
+      expense_category_id: expense_category_id,
+      amount: amount,
+      item_type: @config.item_type,
     }
   end
 
   def get_category_id(row)
-    category = row[category_index]
+    return unless @config.item_type == LineItem::ITEM_TYPES[:expenses]
+
+    category = row[@config.category_column_index]
     mapped_category = category_mappings[category] || category
-    @categories_ids_by_lower_name[mapped_category&.downcase] || @default_category_id
+    categories_ids_by_lower_name[mapped_category&.downcase]
   end
 
-  def format_description(s)
+  def format_memo(s)
+    return nil unless s&.strip&.present?
+
     desc = s.gsub(/(\W|\d)/, ' ') # strip non word chars
     desc = desc.gsub(/\s+/, ' ').strip # normalize multiple spaces
     desc = desc.split.map { |d| d.downcase.capitalize }.join(' ') # titleize

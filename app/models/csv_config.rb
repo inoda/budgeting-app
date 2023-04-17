@@ -1,54 +1,33 @@
 # TO CREATE A CONFIG (in Rails console):
 #
-# config = {
-#   'has_header' => true,
-#   'descriptions' => {
-#     'index' => 0,
-#     'ignore_substrings' => ['Payment made'],
-#   },
-#   'categories' => {
-#     'index' => 1,
-#     'mappings' => {
-#       'Gas' => 'Car',
-#     },
-#   },
-#   'amounts' => {
-#     'index' => 2,
-#     'spend_is_negative' => true,
-#     'skip_non_spend' => false,
-#   },
-#   'timestamps' => {
-#     'index' => 3,
-#   },
-#   'auto_detect' => {
-#     'filename_substrings' => ['account1234'],
-#   },
-# }
-#
-# CsvConfig.create!(name: 'Checking account CSVs', config_json: config.to_json)
+# CsvConfig.create!(
+#   name: 'Credit card',
+#   item_type: LineItem::ITEM_TYPES[:expenses],
+#   has_header: true,
+#   filename_match_substring: 'BankAccount9999',
+#   spend_is_negative: true,
+#   skip_non_spend: false,
+#   transaction_date_column_index: 0,
+#   memo_column_index: 2,
+#   category_column_index: 3,
+#   amount_column_index: 5,
+#   memo_substrings_to_skip: ['Payment made'],
+#   category_mappings_json: { 'Gas' => 'Car' }.to_json
+# )
 
 class CsvConfig < ApplicationRecord
-  validates_presence_of :name, :config_json
+  validates_presence_of :name, :has_header, :filename_match_substring, :amount_column_index, :transaction_date_column_index
+  validates :item_type, inclusion: LineItem::ITEM_TYPES.values
 
-  validate :json_format
+  validate :category_mappings_json_format
 
-  def json_format
-    keys_to_validate = [
-      ['has_header'],
-      ['descriptions', 'index'],
-      ['descriptions', 'ignore_substrings'],
-      ['categories', 'index'],
-      ['categories', 'mappings'],
-      ['amounts', 'index'],
-      ['amounts', 'spend_is_negative'],
-      ['amounts', 'skip_non_spend'],
-      ['timestamps', 'index'],
-    ]
+  def category_mappings_json_format
+    return unless category_mappings_json.present?
 
-    config = JSON.parse(config_json)
-
-    if keys_to_validate.any? { |path| config.dig(*path).nil? }
-      errors.add(:config_json, "Invalid format. View app/models/csv_config.rb for an example.")
+    begin
+      JSON.parse(category_mappings_json)
+    rescue JSON::ParserError
+      errors.add(:config_json, "Invalid JSON in category_mappings_json")
     end
   end
 end

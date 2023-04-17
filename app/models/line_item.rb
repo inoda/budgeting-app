@@ -13,10 +13,6 @@ class LineItem < ApplicationRecord
   private
 
   def type_and_category
-    if item_type == ITEM_TYPES[:expenses] && expense_category_id.nil?
-      errors.add(:expense_category_id, "required")
-    end
-
     if item_type == ITEM_TYPES[:savings] && expense_category_id.present?
       errors.add(:expense_category_id, "not allowed")
     end

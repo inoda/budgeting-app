@@ -20,6 +20,10 @@ class RestResource {
     return ApiCall.post(this.basePath, data);
   }
 
+  bulkCreate(data) {
+    return ApiCall.post(`${this.basePath}/bulk_create`, data);
+  }
+
   delete(id, params) {
     return ApiCall.delete(`${this.basePath}/${id}`, params);
   }
@@ -35,7 +39,7 @@ class RestResource {
 
     const requestObj = { url: `${this.basePath}/upload`, data: formData, method: 'POST' };
 
-    ApiCall.makeRequest(Object.assign(requestObj, requestOpts));
+    return ApiCall.makeRequest(Object.assign(requestObj, requestOpts));
   }
 }
 

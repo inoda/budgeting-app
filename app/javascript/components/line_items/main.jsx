@@ -1,11 +1,11 @@
 import React from 'react';
-import List from './list';
+import FilterableHistory from './filterable_history';
 
 const Main = () => {
   return (
     <>
       <h1>Line Items</h1>
-      <List />
+      <FilterableHistory />
     </>
   );
 }

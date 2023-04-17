@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :line_items, only: [:index, :create, :destroy, :update] do
       post :upload, on: :collection
+      post :bulk_create, on: :collection
     end
 
     resources :expense_categories, only: [:index, :create, :destroy, :update]
