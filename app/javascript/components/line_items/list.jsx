@@ -3,7 +3,7 @@ import { LineItems, ExpenseCategories } from 'requests/resources';
 import Paginator, { STARTING_STATE } from 'components/shared/paginator';
 import Table from 'components/shared/table';
 import CurrencyField from 'components/shared/currency_field';
-import CreateModal from './create_modal';
+import ImportModal from './import_modal';
 import DatePicker from 'react-datepicker';
 import { Alerts, Debounce } from 'utilities/main';
 import moment from 'moment';
@@ -27,7 +27,7 @@ const List = () => {
   const [timeframe, setTimeframe] = useState('last_90_days');
   const [transactionDateMin, setTransactionDateMin] = useState(getTimeframeBounds(timeframe).min);
   const [transactionDateMax, setTransactionDateMax] = useState(getTimeframeBounds(timeframe).max);
-  const [addItemOpen, setAddItemOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const [refreshPageTrigger, setRefreshPageTrigger] = useState(0);
   const refreshCurrentPage = () => setRefreshPageTrigger(refreshPageTrigger + 1);
 
@@ -144,8 +144,8 @@ const List = () => {
     <>
       <div>
         <div>
-          <button onClick={setAddItemOpen}>+ Add items</button>
-          {addItemOpen && <CreateModal />}
+          <button onClick={setImportOpen}>+ Add items</button>
+          {importOpen && <ImportModal />}
         </div>
 
         <div>

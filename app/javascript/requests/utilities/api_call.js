@@ -39,17 +39,17 @@ const ApiCall = {
       );
     });
   },
-  get(path, params, opts) {
-    return this.makeRequest({ url: path, method: 'GET', params: _camelToSnake(params) }, opts);
+  get(path, params) {
+    return this.makeRequest({ url: path, method: 'GET', params: _camelToSnake(params) });
   },
-  delete(path, params, opts) {
-    return this.makeRequest({ url: path, method: 'DELETE', params: _camelToSnake(params) }, opts);
+  delete(path, params) {
+    return this.makeRequest({ url: path, method: 'DELETE', params: _camelToSnake(params) });
   },
-  post(path, data, opts) {
-    return this.makeRequest({ url: path, data: _camelToSnake(data), method: 'POST' }, opts);
+  post(path, data) {
+    return this.makeRequest({ url: path, data: _camelToSnake(data), method: 'POST' });
   },
-  put(path, data, opts) {
-    return this.makeRequest({ url: path, data: _camelToSnake(data), method: 'PUT' }, opts);
+  put(path, data) {
+    return this.makeRequest({ url: path, data: _camelToSnake(data), method: 'PUT' });
   },
 };
 

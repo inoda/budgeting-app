@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   resources :reports, only: [:index]
 
   namespace :api do
-    resources :line_items, only: [:index, :create, :destroy, :update]
+    resources :line_items, only: [:index, :create, :destroy, :update] do
+      post :upload, on: :collection
+    end
+
     resources :expense_categories, only: [:index, :create, :destroy, :update]
   end
 end

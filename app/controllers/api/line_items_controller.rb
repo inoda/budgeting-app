@@ -1,3 +1,5 @@
+require 'csv'
+
 module Api
   class LineItemsController < BaseController
     def index
@@ -41,6 +43,42 @@ module Api
       )
 
       render json: item, status: successful ? 200 : 500
+    end
+
+    def upload
+      csv_configs = CsvConfig.all.
+        map { |c| JSON.parse(c.config_json) }.
+        index_by { |s| s['auto_detect']['filename_substrings'] }
+
+      rows = []
+
+      params[:files].each do |f|
+        file_contents = File.read(f.tempfile)
+        csv = CSV.parse(file_contents)
+
+        csv_config = csv_configs.find do |filename_substrings, _|
+          filename_substrings.find { |substring| f.original_filename.include?(substring) }
+        end
+
+        unless csv_config
+          raise "'#{f.original_filename}' does not match any csv_config records. Set one up following the example in csv_config.rb."
+        end
+
+        # processed_csv = CsvProcessor.new(csv, csv_config).process!
+        # processed_csv.each do |item|
+        #   amount = item[:amount]
+        #   transaction_date = item[:transaction_date]
+        #   memo = item[:memo]
+        #   expense_category_id = item[:expense_category_id]
+        #   item_type = item[:item_type]
+
+        #   next if skip_existing && LineItem.exists?(amount: amount, paid_at: transaction_date, memo: memo)
+
+        #   rows << item
+        # end
+      end
+
+      render json: rows
     end
 
     private

@@ -27,6 +27,16 @@ class RestResource {
   update(id, data) {
     return ApiCall.put(`${this.basePath}/${id}`, data);
   }
+
+  upload(formData) {
+    const requestOpts = {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    };
+
+    const requestObj = { url: `${this.basePath}/upload`, data: formData, method: 'POST' };
+
+    ApiCall.makeRequest(Object.assign(requestObj, requestOpts));
+  }
 }
 
 export default RestResource;
