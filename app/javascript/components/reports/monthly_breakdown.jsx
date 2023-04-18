@@ -72,8 +72,6 @@ const MonthlyBreakdown = ({ monthlyDetails }) => {
       },
     ];
 
-    console.log(expenseDatasets)
-
     const config = {
       type: 'bar',
       data: { labels, datasets },
@@ -93,6 +91,11 @@ const MonthlyBreakdown = ({ monthlyDetails }) => {
             labels: { usePointStyle: true, boxWidth: 5, boxHeight: 5, padding: 15 },
             onHover: e => e.native.target.style.cursor = 'pointer',
             onLeave: e => e.native.target.style.cursor = 'default',
+          },
+          tooltip: {
+            callbacks: {
+              label: (t) => `${t.dataset.label}: $${t.formattedValue}`,
+            },
           },
         }
       },
