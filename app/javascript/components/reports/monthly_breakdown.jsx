@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Numerics, UNCATEGORIZED } from 'utilities/main';
+import { Numerics, UNCATEGORIZED, UNCATEGORIZED_COLOR } from 'utilities/main';
 import { Chart } from 'chart.js/auto';
 
 const toggleCategory = function (_, legendItem) {
@@ -46,7 +46,7 @@ const MonthlyBreakdown = ({ monthlyDetails }) => {
         }
       });
     });
-    if (hasUncategorized) allCategories.push({ label: UNCATEGORIZED, color: 'rgba(0, 0, 0, 0.2)' });
+    if (hasUncategorized) allCategories.push({ label: UNCATEGORIZED, color: UNCATEGORIZED_COLOR });
 
     const expenseDatasets = []
     allCategories.forEach(c => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Reports } from 'requests/resources';
 import { Alerts } from 'utilities/main';
 import ExpenseCategoryTotals from './expense_category_totals_table';
+import ExpenseCategoryPercentages from './expense_category_percentages';
 import SavingsVersusExpenses from './savings_versus_expenses';
 import MonthlyBreakdown from './monthly_breakdown';
 
@@ -33,6 +34,8 @@ const Main = () => {
         totalsByCategory={reportData.expense_totals_by_category}
         numMonths={reportData.monthly_details.length}
       />
+
+      <ExpenseCategoryPercentages percentagesByCategory={reportData.expense_totals_as_percentages} />
     </>
   );
 }

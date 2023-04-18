@@ -23,7 +23,12 @@ const ExpenseCategoryTotals = ({ expensesTotal, savingsTotal, numMonths }) => {
   ];
 
   return (
-    <Table columnConfig={tableColumns} items={items} />
+    <>
+      <h2>
+        {Numerics.floatToPercent(savingsTotal / (savingsTotal + expensesTotal))}% going to savings
+      </h2>
+      <Table columnConfig={tableColumns} items={items} />
+    </>
   );
 }
 

@@ -30,6 +30,18 @@ const Numerics = {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return parts.join('.');
   },
+
+  floatToPercent(value) {
+    if (value == null || value == undefined) { return 0; }
+
+    try {
+      return (value * 100).toFixed(2);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(value, error);
+      return value;
+    }
+  },
 }
 
 export default Numerics;

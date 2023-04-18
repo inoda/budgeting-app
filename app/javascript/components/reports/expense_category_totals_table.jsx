@@ -6,7 +6,7 @@ const ExpenseCategoryTotals = ({ totalsByCategory, numMonths }) => {
   const tableColumns = [
     {
       key: 'category',
-      header: 'Category',
+      header: 'Expense category',
       render: (i) => {
 
         return (
