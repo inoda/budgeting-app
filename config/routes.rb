@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       post :bulk_create, on: :collection
     end
 
-    resources :expense_categories, only: [:index, :create, :destroy, :update]
+    resources :reports, only: [:index]
+
+    resources :expense_categories, only: [:index]
   end
 end

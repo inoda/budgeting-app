@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Table = ({ columnConfig, items, sortData, onSortChange }) => {
+const Table = ({ columnConfig, idFunc, items, sortData, onSortChange }) => {
   const maybeSortableHeader = (c) => {
     if (!c.sortable) return c.header;
 
@@ -30,7 +30,7 @@ const Table = ({ columnConfig, items, sortData, onSortChange }) => {
       <tbody>
         {items.map((i => {
           return (
-            <tr key={i.id}>
+            <tr key={i.id || idFunc(i)}>
               {columnConfig.map(c =>
                 <td key={c.key}>
                   {c.render ? c.render(i) : i[c.key]}

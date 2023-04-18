@@ -5,9 +5,9 @@ task generate_fake_data: :environment do
   LineItem.destroy_all
 
   ExpenseCategory.create!(name: 'Rent', color: '#4263f5', rank: 0)
-  ExpenseCategory.create!(name: 'Bills', color: '#eff542', rank: 1)
-  ExpenseCategory.create!(name: 'Food', color: '#4263f5', rank: 2)
-  ExpenseCategory.create!(name: 'Shopping', color: '#eff542', rank: 3)
+  ExpenseCategory.create!(name: 'Bills', color: '#AB6151', rank: 1)
+  ExpenseCategory.create!(name: 'Food', color: '#fcba03', rank: 2)
+  ExpenseCategory.create!(name: 'Shopping', color: '#51AB75', rank: 3)
 
   categories = ExpenseCategory.all
 

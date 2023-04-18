@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import Table from 'components/shared/table';
 import CurrencyField from 'components/shared/currency_field';
+import { UNCATEGORIZED } from 'utilities/main';
 
 const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, sortData, setSortData }) => {
   const tableColumns = [
@@ -27,7 +28,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
             onChange={e => onItemUpdate(item.id, { expense_category_id: e.target.value })}
             placeholder="Select"
           >
-            <option value="">Uncategorized</option>
+            <option value="">{UNCATEGORIZED}</option>
             {expenseCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         );
