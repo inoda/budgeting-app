@@ -4,6 +4,9 @@ namespace(:local_dev) do
 
     ExpenseCategory.destroy_all
     LineItem.destroy_all
+    User.destroy_all
+
+    User.create!(username: 'test', password: 'test')
 
     ExpenseCategory.create!(name: 'Rent', color: '#4263f5', rank: 0)
     ExpenseCategory.create!(name: 'Bills', color: '#AB6151', rank: 1)
@@ -30,5 +33,7 @@ namespace(:local_dev) do
         item_type: LineItem::ITEM_TYPES[:savings]
       )
     end
+
+    puts "Done. Log in with usersname 'test' and password 'test'"
   end
 end
