@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :line_items, only: [:index]
   resources :reports, only: [:index]
+  resources :ontrack_imports, only: [:new, :create]
 
   namespace :api do
     resources :line_items, only: [:index, :create, :destroy, :update] do

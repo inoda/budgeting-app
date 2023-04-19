@@ -1,0 +1,9 @@
+<%= form_tag ontrack_imports_path, multipart: true, class: "form" do %>
+  <div class="form-row">
+    <input type="file" name="file" accept=".csv" required>
+  </div>
+
+  <div class="form-row">
+    <button type="submit">Import</button>
+  </div>
+<% end %>
