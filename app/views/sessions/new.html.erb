@@ -1,9 +1,15 @@
-<%= form_tag sessions_path do %>
-  <label>Username</label>
-  <%= text_field_tag :username, nil, autocomplete: "off" %>
+<div style="margin-top: 300px">
+  <%= form_tag sessions_path, class: "form" do %>
+    <div class="form-row">
+      <%= text_field_tag :username, nil, autocomplete: "off", placeholder: 'Username' %>
+    </div>
 
-  <label>Password</label>
-  <%= password_field_tag :password, nil, autocomplete: "off" %>
+    <div class="form-row">
+      <%= password_field_tag :password, nil, autocomplete: "off", placeholder: 'Password' %>
+    </div>
 
-  <%= submit_tag "Submit" %>
-<% end %>
+    <div class="form-row">
+      <%= submit_tag "Submit" %>
+    </div>
+  <% end %>
+</div>

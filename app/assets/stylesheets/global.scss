@@ -1,0 +1,9 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  color: rgba(0, 0, 0, 0.9);
+  font-family: 'Inter', sans-serif;
+}
