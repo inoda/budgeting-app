@@ -7,7 +7,7 @@ class OntrackImportsController < ApplicationController
     csv = CSV.parse(file_contents)
 
     ActiveRecord::Base.transaction do
-      csv.each do |row, idx|
+      csv.each_with_index do |row, idx|
         next if idx == 0 # skip header
 
         transaction_date = row[0]
@@ -23,7 +23,8 @@ class OntrackImportsController < ApplicationController
           transaction_date: transaction_date,
           amount: amount_in_cents,
           expense_category_id: category.id,
-          memo: memo
+          memo: memo,
+          item_type: LineItem::ITEM_TYPES[:expenses]
         )
       end
     end

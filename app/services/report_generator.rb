@@ -27,7 +27,10 @@ class ReportGenerator
       )
 
       val = {}
-      result.each { |r| val[r['item_type']] = r['amount'] }
+      LineItem::ITEM_TYPES.values.each do |item_type|
+        db_result = result.find { |r| r['item_type'] == item_type }
+        val[item_type] = db_result ? db_result['amount'] : 0
+      end
       val
     end
   end
@@ -74,11 +77,13 @@ class ReportGenerator
       order by percentage desc
     }
 
+    expense_total = totals_by_item_type[LineItem::ITEM_TYPES[:expenses]].to_f
+
     result = ActiveRecord::Base.connection.execute(
       ApplicationRecord.sanitize_sql([
         query,
         {
-          total: totals_by_item_type[LineItem::ITEM_TYPES[:expenses]].to_f,
+          total: expense_total > 0 ? expense_total : 1, # avoid divide by zero error
           min: @transacton_date_min,
           max: @transacton_date_max,
           item_type: LineItem::ITEM_TYPES[:expenses]
