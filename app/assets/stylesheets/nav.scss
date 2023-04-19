@@ -1,0 +1,26 @@
+nav {
+  margin-top: 10px;
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    list-style: none;
+    padding-left: 0;
+    gap: 16px;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .nav-items-right li {
+    margin-left: 20px;
+  }
+
+  .active a {
+    text-decoration: underline;
+  }
+}

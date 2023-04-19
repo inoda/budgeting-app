@@ -2,35 +2,53 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import Table from 'components/shared/table';
 import CurrencyField from 'components/shared/currency_field';
+import Select from 'components/shared/select';
 import { UNCATEGORIZED } from 'utilities/main';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, sortData, setSortData }) => {
+  const selectOptions =
+  [
+    ...expenseCategories.map(c => {
+      return { value: c.id, label: c.name }
+    }),
+    { value: null, label: UNCATEGORIZED },
+  ]
+
   const tableColumns = [
     {
       key: 'transaction_date',
       header: 'Date',
       sortable: sortData && setSortData,
+      width: '150px',
       render: (item) =>
         <DatePicker
-          onChange={val => onItemUpdate(item.id, { transaction_date: val })}
+          onChange={val => {
+            if (!!val) onItemUpdate(item.id, { transaction_date: val })
+          }}
           selected={new Date(item.transaction_date)}
         />
     },
     {
       key: 'expense_category_id',
       header: 'Category',
+      width: '250px',
       render: (item) => {
-        if (item.item_type === 'savings') return 'Savings';
+        if (item.item_type === 'savings') {
+          return (
+            <div className="field">
+              Savings
+            </div>
+          );
+        }
 
         return (
-          <select
+          <Select
+            options={selectOptions}
+            onChange={val => onItemUpdate(item.id, { expense_category_id: val })}
             defaultValue={item.expense_category_id}
-            onChange={e => onItemUpdate(item.id, { expense_category_id: e.target.value })}
-            placeholder="Select"
-          >
-            <option value="">{UNCATEGORIZED}</option>
-            {expenseCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-          </select>
+          />
         );
       },
     },
@@ -38,6 +56,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
       key: 'amount',
       header: 'Amount',
       sortable: sortData && setSortData,
+      width: '200px',
       render: (item) =>
         <CurrencyField
           initialValue={item.amount}
@@ -62,7 +81,12 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
     {
       key: 'actions',
       header: '',
-      render: (item) => <button onClick={() => onItemRemove(item.id)}>x</button>,
+      width: '40px',
+      render: (item) => (
+        <button onClick={() => onItemRemove(item.id)} className="secondary">
+          <FontAwesomeIcon icon={faTrashCan} />
+        </button>
+      ),
     },
   ];
 

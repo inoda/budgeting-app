@@ -1,4 +1,13 @@
 table {
   width: 100%;
   text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  th {
+    padding-bottom: 8px;
+  }
+  td {
+    padding: 4px
+  }
 }

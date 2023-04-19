@@ -1,7 +1,7 @@
 <nav>
   <ul>
-    <li><%= link_to "history", line_items_path %></li>
-    <li><%= link_to "insights", reports_path %></li>
-    <li><%= link_to "logout", logout_sessions_path %></li>
+    <li class="<%= controller_name == "line_items" ? "active" : '' %>"><%= link_to "History", line_items_path %></li>
+    <li class="<%= controller_name == "reports" ? "active" : '' %>"><%= link_to "Insights", reports_path %></li>
+    <li><%= link_to "Logout", logout_sessions_path %></li>
   </ul>
 </nav>

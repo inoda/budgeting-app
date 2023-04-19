@@ -1,4 +1,6 @@
 import React, { useMemo } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDoubleRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
 
 export const STARTING_STATE = {
   page: 1,
@@ -67,7 +69,7 @@ const Paginator = ({ paginationData, onChange }) => {
 
       <ol>
         <li>
-          <a onClick={prevPage}>back</a>
+          <a onClick={prevPage}><FontAwesomeIcon icon={faAngleDoubleLeft} /></a>
         </li>
         {displayedPages.map((p) =>
           <li key={`page-${p}`} className={`${page == p ? 'active' : ''}`}>
@@ -75,7 +77,7 @@ const Paginator = ({ paginationData, onChange }) => {
           </li>
         )}
         <li>
-          <a onClick={nextPage}>next</a>
+          <a onClick={nextPage}><FontAwesomeIcon icon={faAngleDoubleRight} /></a>
         </li>
       </ol>
     </div>
