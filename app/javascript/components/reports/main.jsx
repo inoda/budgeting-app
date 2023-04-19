@@ -18,6 +18,10 @@ const Main = () => {
 
   if (!reportData) return;
 
+  if (reportData.totals_by_item_type.expenses + reportData.totals_by_item_type.savings === 0) {
+    return <h1>Nothing to show</h1>
+  }
+
   return (
     <>
       <h1>Reports</h1>
