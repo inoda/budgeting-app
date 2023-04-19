@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e5a4be66f1.js" crossorigin="anonymous"></script>
 
     <%= stylesheet_link_tag "application" %>
     <%= javascript_pack_tag "application" %>
@@ -22,6 +23,8 @@
       <%= render partial: 'layouts/navbar' %>
     <% end %>
 
-    <%= yield %>
+    <div class=<%= current_user ? "container" : "" %>>
+      <%= yield %>
+    </div>
   </body>
 </html>

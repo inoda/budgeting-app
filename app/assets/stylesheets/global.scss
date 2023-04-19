@@ -7,3 +7,15 @@ html {
   color: rgba(0, 0, 0, 0.9);
   font-family: 'Inter', sans-serif;
 }
+
+.container {
+  margin-top: 100px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+a {
+  &:hover {
+    cursor: pointer;
+  }
+}

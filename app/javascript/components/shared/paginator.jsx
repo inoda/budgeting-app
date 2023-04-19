@@ -60,7 +60,7 @@ const Paginator = ({ paginationData, onChange }) => {
   if (totalItems < 1) return;
 
   return (
-    <div>
+    <div className="paginator">
       <div>
         Showing <b>{itemsLowerLimit}</b>-<b>{itemsUpperLimit}</b> of <b>{totalItems}</b>
       </div>
@@ -70,8 +70,8 @@ const Paginator = ({ paginationData, onChange }) => {
           <a onClick={prevPage}>back</a>
         </li>
         {displayedPages.map((p) =>
-          <li key={`page-${p}`}>
-            {page === p ? <b><u>{p}</u></b> : <a onClick={() => onChange(p)}>{p}</a> }
+          <li key={`page-${p}`} className={`${page == p ? 'active' : ''}`}>
+            <a onClick={() => onChange(p)}>{p}</a>
           </li>
         )}
         <li>

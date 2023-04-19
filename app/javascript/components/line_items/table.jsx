@@ -41,7 +41,10 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
       render: (item) =>
         <CurrencyField
           initialValue={item.amount}
-          onBlur={val => onItemUpdate(item.id, { amount: val })}
+          onBlur={val => {
+            if (val === item.amount) return;
+            onItemUpdate(item.id, { amount: val })
+          }}
         />
     },
     {
