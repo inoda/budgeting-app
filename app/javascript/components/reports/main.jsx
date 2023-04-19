@@ -24,8 +24,6 @@ const Main = () => {
 
   return (
     <>
-      <h1>Reports</h1>
-
       <MonthlyBreakdown monthlyDetails={reportData.monthly_details} />
 
       <SavingsVersusExpenses
@@ -34,12 +32,15 @@ const Main = () => {
         numMonths={reportData.monthly_details.length}
       />
 
-      <ExpenseCategoryTotals
-        totalsByCategory={reportData.expense_totals_by_category}
-        numMonths={reportData.monthly_details.length}
-      />
-
-      <ExpenseCategoryPercentages percentagesByCategory={reportData.expense_totals_as_percentages} />
+      <div className="flex-row">
+        <div className="chart-container">
+          <ExpenseCategoryPercentages percentagesByCategory={reportData.expense_totals_as_percentages} />
+        </div>
+        <ExpenseCategoryTotals
+          totalsByCategory={reportData.expense_totals_by_category}
+          numMonths={reportData.monthly_details.length}
+        />
+      </div>
     </>
   );
 }

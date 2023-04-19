@@ -28,6 +28,7 @@ a {
 .flex-row {
   display: flex;
   gap: 8px;
+  align-items: center;
 
   &.space-between {
     justify-content: space-between;
