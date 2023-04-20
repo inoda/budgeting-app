@@ -8,7 +8,7 @@ const FileField = ({ onSelect }) => {
         <section className="dropzone">
           <div {...getRootProps()}>
             <input {...getInputProps()} />
-            <p>Drag or click to select files</p>
+            <p style={{ width: '100% '}}>Drag or click to select files</p>
           </div>
         </section>
       )}

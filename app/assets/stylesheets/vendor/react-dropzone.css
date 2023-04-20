@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   border-width: 2px;
   border-radius: 2px;
   border-color: #eeeeee;
@@ -11,7 +10,6 @@
   background-color: #fafafa;
   color: #bdbdbd;
   outline: none;
-  transition: border .24s ease-in-out;
 }
 
 .dropzone:focus {
@@ -20,4 +18,16 @@
 
 .dropzone.disabled {
   opacity: 0.6;
+}
+
+.dropzone:hover {
+  cursor: pointer;
+  border-color: #dbd9d9;
+}
+
+.dropzone [role=presentation] {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
 }

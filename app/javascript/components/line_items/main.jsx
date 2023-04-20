@@ -124,7 +124,12 @@ const Main = () => {
         onChange={page => setPaginationData({ ...paginationData, page })}
       />
 
-      {importOpen && <ImportModal onClose={() => setImportOpen(false)} onCompleteImport={handleImport} />}
+      {importOpen && (
+        <ImportModal
+          onClose={() => setImportOpen(false)}
+          onCompleteImport={handleImport}
+        />
+      )}
     </>
   );
 }

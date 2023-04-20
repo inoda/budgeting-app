@@ -73,21 +73,19 @@ const ImportModal = ({ onClose, onCompleteImport }) => {
   if (expenseCategories === undefined) return;
 
   return (
-    <Modal>
+    <Modal onClose={onClose}>
       {(!filesUploaded || (filesUploaded && items.length === 0)) && (
         <>
-          <h2>Add items</h2>
-          <FileField onSelect={importFiles} />
+          <div className="form-row">
+            <FileField onSelect={importFiles} />
+          </div>
 
-          {filesUploaded && <div>Nothing to import</div>}
-
-          <button onClick={onClose}>Cancel</button>
+          {filesUploaded && Alerts.warn("Nothing to import")}
         </>
       )}
 
       {filesUploaded && items.length > 0 && (
         <>
-          <h2>Review import ({ items.length } items)</h2>
           <LineItemsTable
             expenseCategories={expenseCategories}
             items={items}
@@ -95,10 +93,7 @@ const ImportModal = ({ onClose, onCompleteImport }) => {
             onItemRemove={removeItem}
           />
 
-          <div>
-            <button disabled={loading} onClick={submit}>Submit</button>
-            <button disabled={loading} onClick={() => setFilesUploaded(false)}>Cancel</button>
-          </div>
+          <button disabled={loading} onClick={submit}>Import {items.length} items</button>
         </>
       )}
     </Modal>

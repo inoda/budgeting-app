@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 const Alerts = {
   genericError() {
     Swal.fire({
-      title: 'Uh oh!',
       text: 'Something went wrong. Refreshing the page and trying again might help.',
       icon: 'error',
       confirmButtonText: 'Refresh',
@@ -16,7 +15,6 @@ const Alerts = {
 
   error(errorText, onClose) {
     Swal.fire({
-      title: 'Uh oh!',
       text: errorText,
       icon: 'error',
       confirmButtonText: 'Ok',
@@ -29,11 +27,25 @@ const Alerts = {
     Swal.fire({
       toast: true,
       position: 'bottom-end',
-      timer: 2000,
+      timer: 3000,
       timerProgressBar: true,
       title: successText,
       showConfirmButton: false,
       icon: 'success',
+    }).then(() => {
+      if (onClose) { onClose(); }
+    });
+  },
+
+  warn(text, onClose) {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      timer: 3000,
+      timerProgressBar: true,
+      title: text,
+      showConfirmButton: false,
+      icon: 'warning',
     }).then(() => {
       if (onClose) { onClose(); }
     });
