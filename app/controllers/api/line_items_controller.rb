@@ -67,7 +67,7 @@ module Api
           expense_category_id = item[:expense_category_id]
           item_type = item[:item_type]
 
-          next if LineItem.exists?(amount: amount, transaction_date: transaction_date, memo: memo)
+          next if LineItem.where(amount: amount, memo: memo).where('transaction_date > ? and transaction_date < ?', transaction_date.to_date, transaction_date.to_date + 1.day).exists?
 
           rows << item
         end

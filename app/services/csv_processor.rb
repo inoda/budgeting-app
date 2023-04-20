@@ -32,7 +32,7 @@ class CsvProcessor
       return true
     end
 
-    if @config.memo_substrings_to_skip&.any? { |str| row[@config.memo_column_index]&.downcase&.include? str }
+    if @config.memo_substrings_to_skip&.any? { |str| row[@config.memo_column_index]&.downcase&.include? str.downcase }
       return true
     end
 
