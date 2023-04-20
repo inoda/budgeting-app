@@ -5,7 +5,7 @@ import CurrencyField from 'components/shared/currency_field';
 import Select from 'components/shared/select';
 import { UNCATEGORIZED } from 'utilities/main';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
 
 const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, sortData, setSortData }) => {
   const selectOptions =

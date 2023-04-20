@@ -8,6 +8,7 @@ import { Alerts, Debounce } from 'utilities/main';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faFile } from '@fortawesome/free-regular-svg-icons'
 
 const Main = () => {
   const [items, setItems] = useState([]);
@@ -102,7 +103,10 @@ const Main = () => {
         </div>
 
         <div>
-          <button onClick={setImportOpen}>Import</button>
+          <button onClick={setImportOpen}>
+            Import
+            <FontAwesomeIcon icon={faFile} style={{ marginLeft: '8px' }} />
+          </button>
         </div>
       </div>
 
