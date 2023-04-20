@@ -46,7 +46,7 @@ class CsvProcessor
   def process_row(row)
     expense_category_id = get_category_id(row)
     transaction_date = Chronic.parse(row[@config.transaction_date_column_index])
-    memo = format(row[@config.memo_column_index])
+    memo = format_memo(row[@config.memo_column_index])
     amount = row[@config.amount_column_index].to_f * 100 * spend_multiplier
 
     {
