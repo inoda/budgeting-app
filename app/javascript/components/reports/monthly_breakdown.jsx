@@ -94,7 +94,7 @@ const MonthlyBreakdown = ({ monthlyDetails }) => {
           },
           tooltip: {
             callbacks: {
-              label: (t) => `${t.dataset.label}: $${t.formattedValue}`,
+              label: (t) => `${t.dataset.label}: $${t.raw}`,
             },
           },
         }
