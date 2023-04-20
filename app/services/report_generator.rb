@@ -35,6 +35,34 @@ class ReportGenerator
     end
   end
 
+  def current_month_totals_by_item_type
+    query = %{
+      select item_type, sum(line_items.amount) as amount
+      from line_items
+      where transaction_date >= :min
+      and transaction_date < :max
+      group by item_type
+    }
+
+    result = ActiveRecord::Base.connection.execute(
+      ApplicationRecord.sanitize_sql([
+        query,
+        {
+          min: Date.today.beginning_of_month,
+          max: Date.today.end_of_month + 1,
+          item_type: LineItem::ITEM_TYPES[:expenses]
+        }
+      ])
+    )
+
+    val = {}
+    LineItem::ITEM_TYPES.values.each do |item_type|
+      db_result = result.find { |r| r['item_type'] == item_type }
+      val[item_type] = db_result ? db_result['amount'] : 0
+    end
+    val
+  end
+
   def expense_totals_by_category
     query = %{
       select sum(line_items.amount) AS amount,

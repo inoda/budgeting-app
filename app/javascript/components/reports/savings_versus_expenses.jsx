@@ -1,33 +1,24 @@
 import React from 'react';
 import { Numerics } from 'utilities/main';
-import Table from 'components/shared/table';
 
-const ExpenseCategoryTotals = ({ expensesTotal, savingsTotal, numMonths }) => {
-  const tableColumns = [
-    { key: 'id', header: 'Type' },
-    { key: 'amount', header: 'Amount' },
-    { key: 'average', header: `Average (${numMonths} months)` },
-  ];
-
-  const items = [
-    {
-      id: 'Savings',
-      amount: Numerics.centsToDollars(savingsTotal),
-      average: Numerics.centsToDollars(savingsTotal / numMonths)
-    },
-    {
-      id: 'Expenses',
-      amount: Numerics.centsToDollars(expensesTotal),
-      average: Numerics.centsToDollars(expensesTotal / numMonths)
-    },
-  ];
-
+const ExpenseCategoryTotals = ({ expensesTotal, savingsTotal, currentMonthExpensesTotal, currentMonthSavingsTotal, numMonths }) => {
   return (
     <>
-      <h2>
-        {Numerics.floatToPercent(savingsTotal / (savingsTotal + expensesTotal))}% going to savings
-      </h2>
-      <Table columnConfig={tableColumns} items={items} />
+      <div>
+        Expenses
+
+        <div>This month: {Numerics.centsToDollars(currentMonthExpensesTotal)}</div>
+        <div>Total: {Numerics.centsToDollars(expensesTotal)}</div>
+        <div>Average: {Numerics.centsToDollars(expensesTotal / numMonths)}</div>
+      </div>
+
+      <div>
+        Savings
+
+        <div>This month: {Numerics.centsToDollars(currentMonthSavingsTotal)}</div>
+        <div>Total: {Numerics.centsToDollars(savingsTotal)}</div>
+        <div>Average: {Numerics.centsToDollars(savingsTotal / numMonths)}</div>
+      </div>
     </>
   );
 }
