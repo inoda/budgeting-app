@@ -10,10 +10,10 @@ const ExpenseCategoryTotals = ({ totalsByCategory, numMonths }) => {
       render: (i) => {
 
         return (
-          <>
-            <div style={{ backgroundColor: i.color, height: '10px', width: '10px' }} />
+          <div className="flex-row">
+            <div style={{ backgroundColor: i.color, height: '12px', width: '12px', borderRadius: '4px' }} />
             {i.category || UNCATEGORIZED}
-          </>
+          </div>
         );
       }
     },

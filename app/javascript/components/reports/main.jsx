@@ -61,10 +61,12 @@ const Main = () => {
         numMonths={reportData.monthly_details.length}
       />
 
-      <MonthlyBreakdown monthlyDetails={reportData.monthly_details} />
+      <div className="bar-chart-section">
+        <MonthlyBreakdown monthlyDetails={reportData.monthly_details} />
+      </div>
 
-      <div className="flex-row">
-        <div className="chart-container">
+      <div className="pie-chart-section">
+        <div className="chart">
           <ExpenseCategoryPercentages percentagesByCategory={reportData.expense_totals_as_percentages} />
         </div>
         <ExpenseCategoryTotals

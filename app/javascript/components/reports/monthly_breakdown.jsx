@@ -82,7 +82,15 @@ const MonthlyBreakdown = ({ monthlyDetails }) => {
             ticks: {
               callback: label => `$${Numerics.commify(label)}`,
             },
+            border: {
+              display: false,
+            },
           },
+          x: {
+            border: {
+              display: false,
+            },
+          }
         },
         plugins: {
           legend: {

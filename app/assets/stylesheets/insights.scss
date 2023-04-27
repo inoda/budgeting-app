@@ -1,0 +1,74 @@
+.section {
+  border: 2px solid rgba(111, 90, 208, 0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+
+  .title {
+    background-color: rgba(111, 90, 208, 0.1);
+    text-align: center;
+    padding-top: 4px;
+    padding-bottom: 8px;
+    font-variant: small-caps;
+  }
+
+  .key-stats {
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+
+    .data-tile {
+      text-align: center;
+      flex-grow: 1;
+      padding: 12px 0;
+      width: 300px;
+
+      .heading {
+        font-variant: small-caps;
+      }
+
+      .stat {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+    }
+
+    .separator {
+      border-right: 2px solid rgba(111, 90, 208, 0.1);
+    }
+  }
+}
+
+.bar-chart-section {
+  border: 2px solid rgba(111, 90, 208, 0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 28px 24px;
+}
+
+.pie-chart-section {
+  display: flex;
+  border: 2px solid rgba(111, 90, 208, 0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 28px 32px;
+  justify-content: space-between;
+
+  .chart {
+    height: 600px !important;
+    width: 600px !important;
+  }
+
+  table {
+    margin-left: 40px;
+    border-collapse: collapse;
+
+    th, td {
+      border-bottom: 2px solid rgba(111, 90, 208, 0.1);;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+}
