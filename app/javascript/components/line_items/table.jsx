@@ -83,9 +83,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
       header: '',
       width: '40px',
       render: (item) => (
-        <button onClick={() => onItemRemove(item.id)} className="secondary">
-          <FontAwesomeIcon icon={faTrashCan} />
-        </button>
+        <FontAwesomeIcon icon={faTrashCan} onClick={() => onItemRemove(item.id)} className="clickable" />
       ),
     },
   ];

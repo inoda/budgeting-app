@@ -5,15 +5,16 @@
 }
 
 input, select, .field {
+  transition: border 0.5s ease;
   padding: 16px;
   border-radius: 4px;
-  background-color: rgba(111, 90, 208, 0.1);
   border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 16px;
   width: 100%;
-  &:focus {
+  &:focus, &:hover {
     outline: none;
-    box-shadow: 0px 0px 0px 2px rgba(111, 90, 208, 0.2) inset;
+    border-bottom: 1px solid rgba(111, 90, 208, 0.4);
   }
 }
 
@@ -25,11 +26,15 @@ button, input[type=submit] {
   cursor: pointer;
   outline: inherit;
   padding: 16px;
-  background-color: rgb(111, 90, 208);
   border-radius: 4px;
-  color: white;
+  color: rgba(0, 0, 0, 0.7);
   width: 100%;
   font-weight: bold;
+  transition: background 0.5s ease;
+
+  &:hover {
+    background: rgba(111, 90, 208, 0.1);
+  }
 
   &.secondary {
     background: rgba(111, 90, 208, 0.1);
@@ -56,6 +61,10 @@ button, input[type=submit] {
 .form-row {
   margin-bottom: 16px;
   width: 100%;
+}
+
+.form-actions {
+  margin-top: 30px;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

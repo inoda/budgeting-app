@@ -34,3 +34,11 @@ a {
     justify-content: space-between;
   }
 }
+
+.clickable {
+  transition: color ease 0.5s;
+  &:hover {
+    cursor: pointer;
+    color: rgba(111, 90, 208, 1);
+  }
+}
