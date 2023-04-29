@@ -5,7 +5,7 @@ import CurrencyField from 'components/shared/currency_field';
 import Select from 'components/shared/select';
 import { UNCATEGORIZED } from 'utilities/main';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, sortData, setSortData }) => {
   const selectOptions =
@@ -72,6 +72,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
       render: (item) =>
         <input
           defaultValue={item.memo}
+          spellcheck="false"
           onBlur={e => {
             if (e.target.value.trim() === item.memo) return;
             onItemUpdate(item.id, { memo: e.target.value.trim() });
@@ -83,7 +84,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
       header: '',
       width: '40px',
       render: (item) => (
-        <FontAwesomeIcon icon={faTrashCan} onClick={() => onItemRemove(item.id)} className="clickable" />
+        <FontAwesomeIcon icon={faXmark} onClick={() => onItemRemove(item.id)} className="clickable" />
       ),
     },
   ];

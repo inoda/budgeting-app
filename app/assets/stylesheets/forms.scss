@@ -31,14 +31,10 @@ button, input[type=submit] {
   width: 100%;
   font-weight: bold;
   transition: background 0.5s ease;
+  background-color: rgb(241, 241, 241);
 
   &:hover {
     background: rgba(111, 90, 208, 0.1);
-  }
-
-  &.secondary {
-    background: rgba(111, 90, 208, 0.1);
-    color: rgba(0, 0, 0, 0.8);
   }
 }
 

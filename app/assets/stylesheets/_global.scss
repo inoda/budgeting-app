@@ -36,9 +36,10 @@ a {
 }
 
 .clickable {
-  transition: color ease 0.5s;
+  color: rgba(0, 0, 0, 0.2);
+  transition: all ease 0.5s;
   &:hover {
     cursor: pointer;
-    color: rgba(111, 90, 208, 1);
+    transform: rotate(360deg);
   }
 }
