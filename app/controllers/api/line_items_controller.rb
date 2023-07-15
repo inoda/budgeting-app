@@ -61,13 +61,24 @@ module Api
         processed_csv = CsvProcessor.new(csv, csv_config).process!
 
         processed_csv.each do |item|
-          amount = item[:amount]
+          amount = item[:amount].round
           transaction_date = item[:transaction_date]
           memo = item[:memo]
           expense_category_id = item[:expense_category_id]
           item_type = item[:item_type]
 
-          next if LineItem.where(amount: amount, memo: memo).where('transaction_date > ? and transaction_date < ?', transaction_date.to_date, transaction_date.to_date + 1.day).exists?
+          same_item_exists = LineItem.where(amount: amount, memo: memo).where('transaction_date > ? and transaction_date < ?', transaction_date.to_date, transaction_date.to_date + 1.day).exists?
+          next if same_item_exists
+
+          similar_item_last_30_days = LineItem.where(memo: memo).where('amount >= ? and amount <= ?', amount - 1, amount + 1).where('transaction_date > ?', transaction_date.to_date - 30.days).first
+          if similar_item_last_30_days
+            item[:similar_item] = {
+              transaction_date: similar_item_last_30_days.transaction_date,
+              amount: similar_item_last_30_days.amount,
+              is_same_day: similar_item_last_30_days.transaction_date.to_date == transaction_date.to_date,
+              is_same_amount: similar_item_last_30_days.amount == amount,
+            }
+          end
 
           rows << item
         end

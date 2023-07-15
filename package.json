@@ -27,6 +27,7 @@
     "react-dropzone": "^14.2.3",
     "react-select": "^5.7.2",
     "react-text-mask": "^5.5.0",
+    "react-tooltip": "^5.18.0",
     "react_ujs": "^2.6.2",
     "shakapacker": "6.6.0",
     "style-loader": "^3.3.2",
