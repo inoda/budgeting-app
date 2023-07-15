@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     get :logout, on: :collection
   end
 
-  resources :line_items, only: [:index]
+  resources :line_items, only: [:index, :new, :create]
   resources :reports, only: [:index]
   resources :ontrack_imports, only: [:new, :create]
 

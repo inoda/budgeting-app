@@ -1,0 +1,32 @@
+<div style="margin-top: 200px">
+  <%= form_for @line_item, html: { class: "form" } do |f| %>
+    <div class="form-row">
+      <div>Type</div>
+      <%= f.select :item_type, LineItem::ITEM_TYPES.map { |_, t| [t.titleize, t] }.reverse, required: true %>
+    </div>
+
+    <div class="form-row">
+      <div>Amount (in cents)</div>
+      <%= f.text_field :amount, autocomplete: "off", placeholder: '10000 = $100', required: true %>
+    </div>
+
+    <div class="form-row">
+      <div>Date (YYYY-MM-DD)</div>
+      <%= f.text_field :transaction_date, autocomplete: "off", placeholder: '2023-11-31', required: true %>
+    </div>
+
+    <div class="form-row">
+      <div>Memo</div>
+      <%= f.text_field :memo, autocomplete: "off", placeholder: 'Whole foods', required: true %>
+    </div>
+
+    <div class="form-row">
+      <div>Category (ignored for savings)</div>
+      <%= f.select :expense_category_id, @expense_categories.map { |c| [c.name, c.id] }, include_blank: true, id: 'categories' %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Save" %>
+    </div>
+  <% end %>
+</div>
