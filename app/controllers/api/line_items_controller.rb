@@ -39,7 +39,7 @@ module Api
         expense_category_id: params.fetch(:expense_category_id, item.expense_category_id),
         memo: params.fetch(:memo, item.memo),
         transaction_date: params.fetch(:transaction_date, item.transaction_date),
-        amount: params.fetch(:amount, item.amount),
+        amount: params.fetch(:amount, item.amount).round,
       )
 
       render json: item, status: successful ? 200 : 500
