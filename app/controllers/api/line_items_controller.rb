@@ -91,7 +91,7 @@ module Api
       LineItem.transaction do
         params[:line_items].each do |item|
           LineItem.create!(
-            amount: item['amount'],
+            amount: item['amount'].round,
             expense_category_id: item['expense_category_id'],
             memo: item['memo'],
             transaction_date: item['transaction_date'],
