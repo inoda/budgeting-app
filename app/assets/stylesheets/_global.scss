@@ -40,9 +40,9 @@ a {
   transition: all ease 0.5s;
 }
 
-.hover-spin {
+.clickable {
   &:hover {
     cursor: pointer;
-    transform: rotate(360deg);
+    color: rgba(0, 0, 0, 0.5);
   }
 }

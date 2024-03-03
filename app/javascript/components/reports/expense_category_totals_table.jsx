@@ -20,12 +20,12 @@ const ExpenseCategoryTotals = ({ totalsByCategory, numMonths }) => {
     {
       key: 'amount',
       header: 'Amount',
-      render: i => Numerics.centsToDollars(i.amount)
+      render: i => Numerics.centsToWholeDollars(i.amount)
     },
     {
       key: 'average',
       header: `Average (${numMonths} months)`,
-      render: i => Numerics.centsToDollars(i.amount / numMonths)
+      render: i => Numerics.centsToWholeDollars(i.amount / numMonths)
     },
   ];
 

@@ -38,7 +38,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
       render: (item) =>
         <input
           defaultValue={item.memo}
-          spellcheck="false"
+          spellCheck="false"
           onBlur={e => {
             if (e.target.value.trim() === item.memo) return;
             onItemUpdate(item.id, { memo: e.target.value.trim() });
@@ -95,7 +95,7 @@ const LineItemsTable = ({ items, expenseCategories, onItemUpdate, onItemRemove, 
 
         return (
           <div className='flex-row'>
-            <FontAwesomeIcon icon={faXmark} onClick={() => onItemRemove(item.id)} className="clickable hover-spin" />
+            <FontAwesomeIcon icon={faXmark} onClick={() => onItemRemove(item.id)} className="clickable" />
 
             {item.similar_item && (
               <a

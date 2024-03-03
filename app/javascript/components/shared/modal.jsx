@@ -11,11 +11,8 @@ const Modal = ({ children, onClose }) => {
     });
 
     return () => {
-      const openModals = document.querySelectorAll('.modal').length;
-      if (openModals == 1) {
-        document.body.className = document.body.className.replace('modal-open', '');
-        document.removeEventListener("keydown", onClose);
-      }
+      document.body.className = document.body.className.replace('modal-open', '');
+      document.removeEventListener("keydown", onClose);
     }
   }, [])
 
