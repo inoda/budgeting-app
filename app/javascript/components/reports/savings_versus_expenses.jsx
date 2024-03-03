@@ -18,15 +18,15 @@ const ExpenseCategoryTotals = ({ expensesTotal, savingsTotal, currentMonthExpens
           <div className="separator"></div>
 
           <div className="data-tile">
-            <div className="stat">{Numerics.centsToWholeDollars(expensesTotal)}</div>
-            <div className="heading">total</div>
+            <div className="stat">{Numerics.centsToWholeDollars(expensesTotal / numMonths)}</div>
+            <div className="heading">monthly average</div>
           </div>
 
           <div className="separator"></div>
 
           <div className="data-tile">
-            <div className="stat">{Numerics.centsToWholeDollars(expensesTotal / numMonths)}</div>
-            <div className="heading">monthly average</div>
+            <div className="stat">{Numerics.centsToWholeDollars(expensesTotal)}</div>
+            <div className="heading">total</div>
           </div>
         </div>
       </div>
@@ -43,15 +43,15 @@ const ExpenseCategoryTotals = ({ expensesTotal, savingsTotal, currentMonthExpens
           <div className="separator"></div>
 
           <div className="data-tile">
-            <div className="stat">{Numerics.centsToWholeDollars(savingsTotal)} ({Numerics.floatToPercent(percentSavings)}%)</div>
-            <div className="heading">total</div>
+            <div className="stat">{Numerics.centsToWholeDollars(savingsTotal / numMonths)}</div>
+            <div className="heading">monthly average</div>
           </div>
 
           <div className="separator"></div>
 
           <div className="data-tile">
-            <div className="stat">{Numerics.centsToWholeDollars(savingsTotal / numMonths)}</div>
-            <div className="heading">monthly average</div>
+            <div className="stat">{Numerics.centsToWholeDollars(savingsTotal)} ({Numerics.floatToPercent(percentSavings)}%)</div>
+            <div className="heading">total</div>
           </div>
         </div>
       </div>
